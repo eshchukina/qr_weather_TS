@@ -1,20 +1,48 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text } from 'react-native';
+import * as Font from "expo-font";
+import { Provider as PaperProvider } from 'react-native-paper'; 
+import { NavigationContainer } from '@react-navigation/native'; 
+import RootNavigator from './components/RootNavigator';
+import Spinner from './components/Spinner';
+interface Props {}
 
-export default function App() {
+const App: React.FC<Props> = () => {
+  const [theme, setTheme] = useState<any>(null);
+  const [currentTheme, setCurrentTheme] = useState<any>(null);
+  const [isReady, setIsReady] = useState<boolean>(false);
+
+  const changeTheme = (theme: any, currentTheme: any) => {
+    setTheme(theme);
+    setCurrentTheme(currentTheme);
+  };
+
+  useEffect(() => {
+    async function loadFonts() {
+      try {
+        await Font.loadAsync({
+          first: require("./assets/fonts/Sarabun-Regular.ttf"),
+          second: require("./assets/fonts/Satisfy-Regular.ttf"),
+        });
+        setIsReady(true);
+      } catch (error) {
+        console.error("Error loading fonts:", error);
+      }
+    }
+    loadFonts();
+  }, []);
+
+  if (!isReady) {
+    return <Spinner source={require("./assets/images/qr_spinner.gif")} />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    <PaperProvider theme={theme}>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+        <RootNavigator  />
+
+    </PaperProvider>
+  );
+};
+
+export default App;

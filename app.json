@@ -20,7 +20,9 @@
         "expo-camera",
         {
           "cameraPermission": "Allow QRweather to access your camera.",
-          "microphonePermission": "Allow QRweather to access your microphone."
+          "microphonePermission": "Allow QRweather to access your microphone.",
+          "recordAudioAndroid": true
+
         }
       ]
     ],

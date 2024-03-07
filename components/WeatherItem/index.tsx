@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Card, WhiteSpace, WingBlank } from '@ant-design/react-native'
-
+import { Card } from '@ant-design/react-native'
 import WeatherIcon from "../WeatherIcon";
 
 import styles from "./styles";

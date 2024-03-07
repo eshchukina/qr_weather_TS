@@ -1,43 +1,54 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
-import { BarCodeScanner, BarCodeScannerResult } from "expo-barcode-scanner";
-
-import styles from "../HomeScreen/styles";
+import { Text, View } from "react-native";
+import { Button } from "@ant-design/react-native";
+import { CameraView, useCameraPermissions } from "expo-camera/next";
+import styles from "./styles";
 
 interface ScannerProps {
-  onBarCodeScanned: ({ data }: { data: string }) => void;
+  onBarCodeScanned: (data: { data: string }) => void;
 }
 
 const Scanner: React.FC<ScannerProps> = ({ onBarCodeScanned }) => {
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [facing, setFacing] = useState<"front" | "back">("back");
+  const [permission, askPermission] = useCameraPermissions();
+  const [scanned, setScanned] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    })();
+    askPermission();
   }, []);
 
-  const handleBarCodeScanned = (result: BarCodeScannerResult) => {
-    if (result.data) {
-      onBarCodeScanned({ data: result.data });
+  if (!permission) {
+    return <Text>Requesting camera permission</Text>;
+  }
+
+  if (!permission.granted) {
+    return <Text>No access to camera</Text>;
+  }
+
+  function toggleCameraFacing(): void {
+    setFacing((current) => (current === "back" ? "front" : "back"));
+  }
+
+  const handleBarCodeScanned = ({ data }: { data: string }): void => {
+    if (!scanned) {
+      setScanned(true);
+      onBarCodeScanned({ data });
     }
   };
 
-  if (hasPermission === null) {
-    return <Text style={styles.dataText}>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text style={styles.dataText}>No access to camera</Text>;
-  }
-
   return (
-    <View style={styles.cameraContainer}>
-      <BarCodeScanner
-        barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-        onBarCodeScanned={handleBarCodeScanned}
+    <View style={styles.container}>
+      <CameraView
         style={styles.camera}
-      />
+        facing={facing}
+        onBarcodeScanned={handleBarCodeScanned}
+      >
+        <View style={styles.buttonContainer}>
+          <Button style={styles.button} onPress={toggleCameraFacing}>
+            <Text style={styles.text}>Flip Camera</Text>
+          </Button>
+        </View>
+      </CameraView>
     </View>
   );
 };

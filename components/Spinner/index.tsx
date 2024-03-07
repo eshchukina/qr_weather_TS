@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image,  ImageSourcePropType  } from "react-native";
+import { View, Image, ImageSourcePropType } from "react-native";
 
 interface SpinnerProps {
   source: ImageSourcePropType;

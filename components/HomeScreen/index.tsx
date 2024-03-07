@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { Grid, Icon, Button } from '@ant-design/react-native'
+import { Button } from "@ant-design/react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Scanner from "../Scanner";
 import AntIcon from "react-native-vector-icons/AntDesign";
-
-
 
 import Header from "../Header";
 import styles from "./styles";
 
 interface Props {
-  navigation: any; 
+  navigation: any;
 }
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
@@ -61,7 +59,6 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
         ) : (
           <TouchableOpacity onPress={handleToggleScanner}>
             <Text style={styles.qrImage}>
-
               <AntIcon name="qrcode" size={300} color="#fff1f2" />,
             </Text>
           </TouchableOpacity>
@@ -70,7 +67,6 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <View style={styles.dataTextContainer}>
             <Text style={styles.dataText}>
               Location: {scannedData}
-           
               <AntIcon name="pushpin" size={30} color="#edbabc" />
             </Text>
           </View>
@@ -79,12 +75,10 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
         {showScanner ? (
           <>
             <Button
-              // title="Cancel"
               onPress={handleToggleScanner}
               style={styles.buttonContainer}
             >
               <Text style={styles.buttonContainerText}>
-            
                 <AntIcon name="close" size={30} color="#bb7b85" />
               </Text>
             </Button>

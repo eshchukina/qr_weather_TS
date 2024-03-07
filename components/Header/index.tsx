@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, Image, ViewStyle } from "react-native";
-import { Button } from '@ant-design/react-native'
+import { Image } from "react-native";
+import { Button } from "@ant-design/react-native";
 import ModalWindow from "../ModalWindow";
-import Map from "react-native-vector-icons/MaterialCommunityIcons";
 import AntIcon from "react-native-vector-icons/AntDesign";
 
 import styles from "./styles";
@@ -10,7 +9,6 @@ import styles from "./styles";
 interface HeaderProps {
   scannedData: string;
 }
-
 
 const Header: React.FC<HeaderProps> = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -32,12 +30,9 @@ const Header: React.FC<HeaderProps> = () => {
       >
         <AntIcon name="bars" size={30} color="#faedcd" />
       </Button>
-      <ModalWindow
-        visible={modalVisible}
-        onClose={handleToggleModal}
-      />
+      <ModalWindow visible={modalVisible} onClose={handleToggleModal} />
     </>
   );
-}
+};
 
 export default Header;

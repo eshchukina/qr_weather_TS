@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import { Grid, Icon, SearchBar } from '@ant-design/react-native'
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import WeatherItem from "../WeatherItem";
 import Arrow from "react-native-vector-icons/Ionicons";
@@ -42,7 +40,10 @@ const WeatherScreen: React.FC = () => {
     try {
       const updatedWords = savedLocations.filter((item) => item !== location);
       setSavedLocations(updatedWords);
-      await AsyncStorage.setItem("scannedSaveData", JSON.stringify(updatedWords));
+      await AsyncStorage.setItem(
+        "scannedSaveData",
+        JSON.stringify(updatedWords)
+      );
     } catch (error) {
       console.error("Error removing word:", error);
     }
@@ -50,7 +51,9 @@ const WeatherScreen: React.FC = () => {
 
   const fetchWeatherData = async (location: string) => {
     try {
-      const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=U9A8E5E5BQ3ZZZCL32MLDUKPR`);
+      const response = await fetch(
+        `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=U9A8E5E5BQ3ZZZCL32MLDUKPR`
+      );
       const data = await response.json();
       setWeatherData(data);
     } catch (error) {
@@ -115,12 +118,10 @@ const WeatherScreen: React.FC = () => {
         {savedLocations.length > 2 && (
           <Text>
             <Arrow name="arrow-back" size={20} color="#faedcd" />
-            
           </Text>
         )}
 
         <FlatList
-        
           horizontal
           data={savedLocations.length > 0 ? savedLocations : ["Moscow,Ru"]}
           renderItem={({ item }) => (
@@ -147,7 +148,6 @@ const WeatherScreen: React.FC = () => {
                 >
                   <Text>
                     <Del name="delete" size={20} color="#313857" />
-
                   </Text>
                 </TouchableOpacity>
               )}
